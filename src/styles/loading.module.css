@@ -1,0 +1,79 @@
+/* components/LoadingScreen.module.css */
+.loadingScreen {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  flex-direction: column;
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.spinner {
+  border: 4px solid rgba(0, 0, 0, 0.1);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border-left-color: rgb(23, 206, 181);
+  animation: spin 1s ease infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+.wavyText {
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.wavyText span {
+  display: inline-block;
+  animation: wave 1.4s ease-in-out infinite;
+  color: #3498db;
+}
+
+/* Tạo delay cho từng ký tự */
+.wavyText span:nth-child(1) { animation-delay: 0s; }
+.wavyText span:nth-child(2) { animation-delay: 0.1s; }
+.wavyText span:nth-child(3) { animation-delay: 0.2s; }
+.wavyText span:nth-child(4) { animation-delay: 0.3s; }
+.wavyText span:nth-child(5) { animation-delay: 0.4s; }
+.wavyText span:nth-child(6) { animation-delay: 0.5s; }
+.wavyText span:nth-child(7) { animation-delay: 0.6s; }
+.wavyText span:nth-child(8) { animation-delay: 0.7s; }
+.wavyText span:nth-child(9) { animation-delay: 0.8s; }
+.wavyText span:nth-child(10) { animation-delay: 0.9s; }
+
+
+/* Keyframes tạo hiệu ứng sóng */
+@keyframes wave {
+  0%, 40%, 100% {
+    transform: translateY(0);
+  }
+  20% {
+    transform: translateY(-20px);
+  }
+}
+.wavyText span {
+  animation: wave 1.2s ease-in-out infinite, color-change 3s linear infinite;
+}
+
+@keyframes color-change {
+  0% { color: #3498db; }
+  25% { color: #e74c3c; }
+  50% { color: #2ecc71; }
+  75% { color: #f1c40f; }
+  100% { color: #3498db; }
+}

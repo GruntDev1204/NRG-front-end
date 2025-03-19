@@ -1,0 +1,9 @@
+@import "tailwindcss";
+.container-body {
+    height: 48px;
+    margin-top: 20px;
+    margin-bottom: 12px;
+    display: flex;
+    justify-content: space-between;
+    background-color: #ededed;
+}
