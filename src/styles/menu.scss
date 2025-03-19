@@ -1,0 +1,119 @@
+.menu-ul {
+  background-color: #fff;
+  box-shadow: 5px 10px 15px rgba(136, 136, 136, 0.3);
+  text-align: center;
+  margin: auto;
+  width: 50%;
+  height: 50px;
+  line-height: 50px;
+}
+
+.menu-ul ul {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  list-style: none;
+  justify-content: space-around;
+}
+
+.menu-ul ul li {
+  flex: 1;
+  width: 100%;
+  border-right: 1px solid rgba(101, 100, 100, 0.34);
+}
+
+.menu-ul ul li a {
+  text-align: center;
+  text-decoration: none;
+  color: black;
+}
+
+.menu-ul ul li:last-child {
+  border-right: none;
+}
+
+.footer {
+  display: flex;
+  justify-content: flex-end; /* Đảm bảo nút nằm ở phía bên phải */
+  margin-top: 10px;
+  padding-right: 20px; /* Thêm khoảng cách từ phải */
+}
+
+.footer button {
+  padding: 8px 15px;
+  background-color: rgb(214, 51, 51);
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.footer button:hover {
+  background-color: rgb(255, 0, 0);
+}
+
+.footer button i {
+  margin-left: 5px;
+}
+
+/* RESPONSIVE CHO MÀN HÌNH NHỎ */
+@media screen and (max-width: 1024px) {
+  .menu-ul {
+    width: 80%;
+  }
+
+  .footer {
+    justify-content: flex-end;
+  }
+
+  .footer button {
+    margin-right: 10px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .menu-ul {
+    width: 100%;
+    height: auto;
+    line-height: normal;
+  }
+
+  .menu-ul ul {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .menu-ul ul li {
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid rgba(101, 100, 100, 0.34);
+    border-right: none;
+    padding: 10px 0;
+  }
+
+  .menu-ul ul li:last-child {
+    border-bottom: none;
+  }
+
+  .footer {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .footer button {
+    position: static;
+    margin-top: 10px;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .menu-ul {
+    width: 100%;
+  }
+
+  .footer button {
+    width: 80%;
+    margin: 10px auto;
+  }
+}

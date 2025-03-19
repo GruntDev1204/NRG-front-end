@@ -1,0 +1,159 @@
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 90vh;
+    position: relative;
+    z-index: 1;
+    .login-image {
+      position: relative;
+      width: 90%;
+      height: 80vh;
+      background-image: url('https://getflycrm.com/wp-content/uploads/2017/06/5-phong-cach-ban-hang-chuan-muc.jpg');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(50%);
+      z-index: -1; 
+    }
+  
+    .login-form {
+      position: absolute;
+      top: 50%;
+      left: 70%;
+      transform: translate(-50%, -50%);
+      background-color: #fff;
+      padding: 40px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+  
+      h2 {
+        margin: 0;
+        color: #333;
+        font-size: 28px; 
+        font-weight: 600; 
+      }
+  
+      .form-name {
+        margin-bottom: 20px;
+        text-align: left;
+  
+        label {
+          font-size: 16px;
+          color: #444;
+          display: block;
+          margin-bottom: 5px;
+        }
+  
+        input {
+          width: 95%;
+          padding: 12px; 
+          margin-top: 5px;
+          font-size: 16px; 
+          border: 1px solid #ddd;
+          border-radius: 5px;
+          outline: none;
+  
+          &:focus {
+            border-color: #007bff;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+          }
+        }
+      }
+  
+      .button-login {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 12px 20px; 
+        width: 100%;
+        margin-top: 20px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 18px; 
+  
+        &:hover {
+          background-color: #0056b3;
+        }
+      }
+  
+      p {
+        margin-top: 15px;
+        font-size: 15px;
+        color: #555;
+  
+        a {
+          color: #007bff;
+          text-decoration: none;
+  
+          &:hover {
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+  
+  // Responsive
+  
+  @media screen and (max-width: 1024px) {
+    .login-container {
+      flex-direction: column;
+    }
+  
+    .login-form {
+      width: 80%;
+      padding: 30px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3); 
+    }
+  
+    h2 {
+      font-size: 26px;
+    }
+  
+    .button-login {
+      font-size: 16px;
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    .login-container {
+      padding: 20px;
+    }
+  
+    .login-form {
+      width: 90%;
+      padding: 25px;
+    }
+  
+    h2 {
+      font-size: 24px;
+    }
+  
+    .button-login {
+      font-size: 15px;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    .login-container {
+      padding: 15px;
+    }
+  
+    .login-form {
+      width: 100%;
+      padding: 20px;
+    }
+  
+    h2 {
+      font-size: 20px;
+    }
+  
+    .button-login {
+      font-size: 14px;
+      padding: 10px 15px;
+    }
+  }
+  

@@ -1,0 +1,55 @@
+.Active {
+  width: 400px;
+  background-color: #ffc0cb;
+  margin: auto;
+  margin-top: 60px;
+  padding: 20px;
+  border-radius: 10px;
+
+  h2 {
+    margin: 0;
+  }
+  .active-cover {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+
+    .btn1 {
+      width: 100px;
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+      background-color: #ff1493;
+      color: #fff;
+
+      &:hover {
+        background-color: #c1116f;
+        cursor: pointer;
+        transition: 0.5s;
+      }
+    }
+    input {
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+      margin-top: 10px;
+      outline: none;
+    }
+  }
+  .save {
+    padding: 10px;
+    margin-top: 10px;
+    width: 100%;
+    border-radius: 5px;
+    border: none;
+    background-color: #26c789;
+    color: #fff;
+
+    &:hover {
+      background-color: #079a62;
+      cursor: pointer;
+      transition: 0.5s;
+    }
+  }
+}

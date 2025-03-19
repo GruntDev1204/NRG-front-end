@@ -1,0 +1,204 @@
+.table-container {
+    max-width: 100%;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow-x: auto;
+  
+    table {
+      
+      width: 100%;
+      border-collapse: collapse;
+      
+      thead {
+        background-color: #f4f4f4;
+        th {
+          padding: 12px;
+          text-align: center;
+          color: #333;
+          font-weight: bold;
+        }
+      }
+  
+      tbody {
+        text-align: center;
+        tr {
+          border-bottom: 1px solid #eee;
+        }
+  
+        td {
+          padding: 10px;
+          text-align: center;
+          color: #555;
+          
+          img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+          }
+        }
+      }
+    }
+  }
+  
+  .edit-btn,
+  .delete-btn {
+    padding: 6px 12px;
+    width: 100px;
+    font-size: 14px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+    transition: background-color 0.3s;
+  
+    &.edit-btn {
+      background-color: #4caf50;
+      color: white;
+  
+      &:hover {
+        background-color: #45a049;
+      }
+    }
+  
+    &.delete-btn {
+      background-color: #f44336;
+      color: white;
+  
+      &:hover {
+        background-color: #e53935;
+      }
+    }
+  }
+  
+  select {
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    outline: none;
+    margin-right: 10px;
+    width: 100px;
+  
+    option {
+      padding: 10px;
+    }
+  }
+  
+  td button {
+    margin-top: 10px;
+  }
+  
+  select:disabled {
+    background-color: #e0e0e0;
+    color: #757575;
+  }
+  
+  footer {
+    text-align: center;
+    margin-top: 30px;
+  }
+  
+  h2 {
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+  /* Container của form chỉnh sửa */
+.edit-form {
+  width: 400px;
+  padding: 20px;
+  margin: 20px auto;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Tiêu đề form */
+.edit-form h3 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  color: #333;
+}
+
+/* Các trường nhập liệu */
+.edit-form form {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Style cho input và select */
+.edit-form input,
+.edit-form select {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  font-size: 16px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+/* Hover effect cho các input */
+.edit-form input:focus,
+.edit-form select:focus {
+  border-color: #007bff;
+  outline: none;
+}
+
+/* Style cho nút Save và Cancel */
+.edit-form button {
+  padding: 10px 20px;
+  font-size: 16px;
+  margin-top: 10px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Nút Save */
+.edit-form button[type="submit"] {
+  background-color: #28a745;
+  color: white;
+}
+
+.edit-form button[type="submit"]:hover {
+  background-color: #218838;
+}
+
+/* Nút Cancel */
+.edit-form button[type="button"] {
+  background-color: #dc3545;
+  color: white;
+}
+
+.edit-form button[type="button"]:hover {
+  background-color: #c82333;
+}
+
+/* Style cho các trường label */
+.edit-form label {
+  font-size: 16px;
+  color: #333;
+  margin-bottom: 5px;
+  text-align: left;
+  width: 100%;
+}
+.cover-btn{
+  display: flex;
+   gap: 20px;
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+  .edit-form {
+      width: 90%;
+  }
+}

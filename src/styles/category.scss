@@ -1,0 +1,39 @@
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  font-size: 24px;
+}
+
+.categoryList {
+  margin-bottom: 20px;
+}
+
+.categoryList ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+.categoryList li {
+  background-color: #f9f9f9;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+.categoryList button {
+  margin-left: 10px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.formSection {
+  margin-top: 20px;
+}
+
+.cover {
+  display: flex;
+  justify-content: end;
+}

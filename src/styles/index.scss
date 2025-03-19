@@ -1,0 +1,60 @@
+@import "./active.scss";
+@import "./admin.scss";
+@import "./authen.scss";
+@import "change.scss";
+@import "forgot.scss";
+@import "login.scss";
+@import "manager.scss";
+@import "menu.scss";
+@import "profile.scss";
+@import "register.scss";
+@import "view.scss";
+@import "category.scss";
+@import "invoice.scss";
+@import "manaproduct.scss";
+
+.form-select {
+  width: 300px;
+}
+
+.image-preview {
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.avatar-review {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 1px solid #000000;
+}
+
+.slide {
+  width: 100%;
+  height: 100vh;
+  object-fit: contain;
+}
+
+.container {
+  margin: 50px auto;
+  max-width: 1440px;
+}
+
+.card {
+  border: 1px solid #ccc;
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  padding: 10px;
+  margin-top: 10px;
+}
+.avatar {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid black;
+}
