@@ -5,6 +5,7 @@ import axios from "axios"
 import { useDispatch } from "react-redux"
 import { setSearch } from "@/store/slices/productsSlice"
 import Notifi from "./notification"
+import { toast } from "react-toastify"
 export default function Header() {
     const token: string = Cookies.get("access_token") || ""
     const router = useRouter()
@@ -37,7 +38,7 @@ export default function Header() {
                     if (response.status === 204) {
                         Cookies.remove("access_token")
                         router.push("/auth")
-                        alert("Đăng xuất thành công")
+                        toast.warning("Đã đăng xuất")
                     }
                 })
         } catch (e) {

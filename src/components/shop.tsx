@@ -10,9 +10,10 @@ import Banner from "@/components/banner"
 import { Sorting } from "@/components/sorting"
 
 import { useDispatch, useSelector } from "react-redux"
-import { setCount, setDataProduct, setLoading, setTotal, Total } from "@/store/slices/productsSlice"
+import { setDataProduct, setLoading, setTotal, Total } from "@/store/slices/productsSlice"
 import LoadingScreen from "./Loading"
 import Header from "./header"
+import { toast } from "react-toastify"
 
 export default function Shop() {
     const [selectedProd, setSelectedProd] = useState(null)
@@ -41,7 +42,7 @@ export default function Shop() {
                     dispatch(setLoading(false))
                 })
                 .catch((error) => {
-                    alert("Sign up error, please try again!")
+                    toast.error("Have a problem , we will fix it soon!")
                 })
         } catch (e) {
             console.log(e)
@@ -57,11 +58,11 @@ export default function Shop() {
                 if (res.data.status === 200) {
                     setLstCategory(res.data.data)
                 } else {
-                    alert("Sign up error, please try again!")
+                    toast.error("Have a problem , we will fix it soon!")
                 }
             })
             .catch((error) => {
-                console.error("Error in sign up", error)
+                console.log("Error in sign up", error)
             })
     }
 
@@ -74,26 +75,6 @@ export default function Shop() {
     }, [])
 
     const router = useRouter()
-
-    function getCart() {
-        const token = Cookies.get('access_token') || ""
-        axios.get(`http://127.0.0.1:8000/api/carts`,
-            {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            }
-        )
-            .then((res) => {
-                if (res.data.status === 200) {
-                    dispatch(setCount(res.data.data.length))
-                }
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-
-    }
 
     useEffect(() => {
         const token = Cookies.get("access_token") || ""
@@ -110,11 +91,11 @@ export default function Shop() {
             )
             .then((response) => {
                 if (response.data.status === 200) {
-
+                    toast.info("welcome to application !")
                 }
             })
             .catch((error) => {
-                alert("please login to use application services and application features")
+                toast.info("please login to use application services and application features")
             })
 
     }, [router])

@@ -24,7 +24,7 @@ export default function Notifi() {
 
                 setCountLast24h(last24hNotifi.length)
                 setNotifi(last24hNotifi.slice(0, 3))
-            }).catch((err) => {})
+            }).catch((err) => { })
     }, [])
 
     return (
@@ -35,7 +35,7 @@ export default function Notifi() {
                 Thông báo
                 <div className="header-notification">
                     <header className="header-notification-header">
-                        <h3>Thông báo mới</h3>
+                        <h3>Thông báo mới ( trong vòng 24 giờ )</h3>
                     </header>
                     <ul className="header-notify-list">
                         {notifi.length > 0 ? (
@@ -45,7 +45,7 @@ export default function Notifi() {
                                         <img src={item.image_url} alt="notifi" className="header-notify-img" />
                                         <div className="header-notify-info">
                                             <span className="header-notify-name">{item.title}</span>
-                                            <span className="header-notify-descriotion">{item.content}</span>
+                                            <span className="header-notify-descriotion">{item.content.length > 200 ? item.content.slice(0, 200) + '...' : item.content}</span>
                                         </div>
                                     </a>
                                 </li>

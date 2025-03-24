@@ -4,6 +4,7 @@ import Header from "./header"
 import axios from "axios"
 import Cookies from "js-cookie"
 import { useRouter } from "next/router"
+import { toast } from "react-toastify"
 
 export default function Profile() {
     const token: string = Cookies.get("access_token") || ""
@@ -30,7 +31,7 @@ export default function Profile() {
                 if (response.status === 204) {
                     Cookies.remove("access_token")
                     router.push("/auth")
-                    alert("Đăng xuất thành công")
+                    toast.warning("Đã đăng xuất!")
                 }
             })
             .catch((error) => {
@@ -57,12 +58,13 @@ export default function Profile() {
                     })
                         .then(res => {
                             setUser(res.data.data)
+                            toast.info("hello there!")
                         })
                 }
             })
             .catch(() => {
                 setTimeout(() => {
-                    alert('Login session has expired , please log in again!')
+                    toast.warning('Login session has expired , please log in again!')
                     router.push('/auth')
                 }, 2000)
             })

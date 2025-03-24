@@ -6,6 +6,7 @@ import Cookies from "js-cookie"
 import { useDispatch } from "react-redux"
 import { setCount } from "@/store/slices/productsSlice"
 import { formatVND } from "@/help/function"
+import { toast } from "react-toastify"
 
 interface Props {
   onBack: (product: any) => void
@@ -90,14 +91,14 @@ export const ProdDetail: React.FC<Props> = ({ onBack, idProduct }) => {
               break
             case "cart":
               getCart()
-              alert("Thêm giỏ hàng thành công")
+              toast.success("Thêm giỏ hàng thành công")
               router.push('/cart')
               break
             default:
               break
           }
         } else {
-          alert("Thêm vào giỏ hàng thất bại")
+          toast.error("Thêm vào giỏ hàng thất bại")
         }
       })
       .catch(error => console.log(error))
@@ -119,10 +120,10 @@ export const ProdDetail: React.FC<Props> = ({ onBack, idProduct }) => {
     })
       .then(res => {
         if (res.data.status === 201) {
-          alert("Order success")
+          toast.success("Order success")
           router.push("/invoice")
         } else {
-          alert("Order fail")
+          toast.error("Order fail")
         }
       })
       .catch(error => console.log(error))
@@ -138,11 +139,11 @@ export const ProdDetail: React.FC<Props> = ({ onBack, idProduct }) => {
         if (res.data.status === 200) {
           setProduct(res.data.data)
         } else {
-          alert("Sign up error, please try again!")
+          toast.error("Sign up error, please try again!")
         }
       })
       .catch((error) => {
-        alert("Sign up error, please try again!")
+        toast.error("Sign up error, please try again!")
       })
   }, [id])
 

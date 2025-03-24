@@ -2,6 +2,7 @@ import axios from "axios"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import Cookies from 'js-cookie'
+import { toast } from "react-toastify"
 
 export default function Auth() {
     const [selectAuth, setSelectAuth] = useState<boolean>(false)
@@ -50,13 +51,13 @@ export default function Auth() {
                     const access_token: string = res.data.data.access_token
                     Cookies.set('access_token', access_token, { expires: 1 })
                     pushRouter()
-                    return alert('login success')
+                    return toast.success('login success')
                 }
             }).catch((error) => {
                 if (error.response.status === 403) {
-                    alert(error.response.data.error)
+                    toast.error(error.response.data.error)
                 } else {
-                    alert("login thất bại")
+                    toast.error("login thất bại")
                 }
             })
     }
@@ -65,14 +66,14 @@ export default function Auth() {
         axios.post("http://127.0.0.1:8000/api/users/register", register)
             .then((res) => {
                 if (res.data.status === 201) {
-                    alert("đăng kí thành công , hãy đăng nhập và mua hàng")
+                    toast.success("đăng kí thành công , hãy đăng nhập và mua hàng")
                     setSelectAuth(false)
                 } else {
-                    alert("Sign up error, please try again!")
+                    toast.error("Sign up error, please try again!")
                 }
             })
             .catch((error) => {
-                console.error("Error in sign up", error)
+                console.log("Error in sign up", error)
             })
     }
 
@@ -82,9 +83,9 @@ export default function Auth() {
                 const access_token: string = res.data.data.access_token
                 Cookies.set('access_token', access_token, { expires: 1 })
                 pushRouter()
-                return alert('login success')
+                return toast.success('login success')
             }).catch((error) => {
-                alert(error.response.data.error)
+                toast.warning(error.response.data.error)
             })
     }
 
@@ -97,11 +98,15 @@ export default function Auth() {
     }
 
     const reqForgotPassword = () => {
+        if (email.length <= 0) {
+            toast.warning('Please enter a valid email address')
+            return
+        }
         axios.post("http://127.0.0.1:8000/api/auth/request-forgot-password", { email: email })
             .then((res) => {
-                alert(res.data.message)
+                toast.success(res.data.message)
             }).catch((error) => {
-                alert(error.response.data.error)
+                toast.error(error.response.data.error)
             })
     }
 
@@ -169,7 +174,7 @@ export default function Auth() {
                             isForgotPassword &&
                             <>
                                 <div className="form-name">
-                                    <label>Type your email!</label>
+                                    <label>Type your email! <a style={{ cursor: "pointer", color: "blue" }} onClick={() => { setIsForgotPassword(false) }}>Come back</a></label>
                                     <input type="email" placeholder="Enter your email" value={email}
                                         onChange={(e) => {
                                             setEmail(e.target.value)
@@ -208,7 +213,7 @@ export default function Auth() {
                         }}>Sign up</button>
                         {selectAuth && <p>Have an account? <button onClick={() => { setSelectAuth(false) }} style={({ color: 'blue', cursor: 'pointer' })}>Login</button></p>}
                     </>}
-                    {isForgotPassword && email.length > 0 && <p>Access your email <a href={`mailto:${email}`} style={({ color: 'blue', cursor: 'pointer' })}>Login</a></p>}
+                    {isForgotPassword && email.length > 0 && <p>Access your email <a href={`mailto:${email}`} style={({ color: 'blue', cursor: 'pointer' })}>Access <i className="fa-solid fa-envelope"></i></a></p>}
 
                 </div>
             </div >

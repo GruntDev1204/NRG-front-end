@@ -3,6 +3,7 @@ import { useRouter } from "next/router"
 import axios from "axios"
 import Cookies from "js-cookie"
 import { formatVND } from "@/help/function"
+import { toast } from "react-toastify"
 
 interface Props {
   onBack: (product: any) => void
@@ -30,10 +31,10 @@ export const Cart = () => {
     })
       .then(res => {
         if (res.data.status === 201) {
-          alert("Order success")
+          toast.success("Order success")
           router.push("/invoice")
         } else {
-          alert("Order fail")
+          toast.error("Order fail")
         }
       })
       .catch(error => console.log(error))
@@ -48,11 +49,10 @@ export const Cart = () => {
       }
     )
       .then(res => {
-        console.log(res.data)
         if (res.data.status === 200) {
-          // alert("Cap nhap gio hang thanh cong")
+          toast.success(res.data.message)
         } else {
-          alert("Cap nhap gio hang that bai")
+          toast.error("Cap nhap gio hang that bai")
         }
       })
       .catch(error => console.log(error))
@@ -66,11 +66,11 @@ export const Cart = () => {
       }
     )
       .then(res => {
-        if (res.data.status === 204 || res.data.status === 404 || res.data.status === 200 || res.data.status == undefined) {
+        if (res.data.status === 204) {
           getCart()
-          alert("Delete cart success")
+          toast.success("Delete cart success")
         } else {
-          alert("Xoa gio hang that bai")
+          toast.error("Xoa gio hang that bai")
         }
       })
       .catch(error => console.log(error))
@@ -112,17 +112,12 @@ export const Cart = () => {
       )
       .then((response) => {
         if (response.data.status === 200) {
-          axios.get('http://127.0.0.1:8000/api/auth/profile', {
-            headers: { Authorization: `Bearer ${token}` }
-          })
-            .then(res => {
-
-            })
+          toast.info("hello")
         }
       })
       .catch(() => {
         setTimeout(() => {
-          alert('Login session has expired , please log in again!')
+          toast.warning('Login session has expired , please log in again!')
           router.push('/auth')
         }, 2000)
       })
@@ -169,9 +164,9 @@ export const Cart = () => {
                 <td className="cart-table-cell">{formatVND(parseFloat(item.price))}</td>
                 <td className="cart-table-cell quantity-cell">
                   <div className="quantity-cell-border">
-                    <span onClick={() => updateQuantity(item.id, -1, item.quantity, item.product_id)} className="quantity-btn btn-one ">-</span>
+                    <span onClick={() => { setTimeout(() => updateQuantity(item.id, -1, item.quantity, item.product_id), 500) }} className="quantity-btn btn-one ">-</span>
                     <span className="quantity">{item.quantity}</span>
-                    <span onClick={() => updateQuantity(item.id, 1, item.quantity, item.product_id)} className="quantity-btn btn-two">+</span>
+                    <span onClick={() => { setTimeout(() => updateQuantity(item.id, +1, item.quantity, item.product_id), 500) }} className="quantity-btn btn-two">+</span>
                   </div>
                 </td>
                 <td className="cart-table-cell">{formatVND(parseFloat(item.price) * item.quantity) || "..."}</td>

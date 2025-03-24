@@ -5,6 +5,7 @@ import axios from "axios"
 import Cookies from "js-cookie"
 import { useRouter } from "next/router"
 import { uploadAva } from "@/help/function"
+import { toast } from "react-toastify"
 export default function Setting() {
     const token: string = Cookies.get("access_token") || ""
     const [user, setUser] = useState<any>({})
@@ -66,15 +67,15 @@ export default function Setting() {
             })
             .then(res => {
                 if (res.data.status === 201) {
-                    alert(res.data.message)
+                    toast.success(res.data.message)
                     Cookies.remove("access_token")
                     router.push('/auth')
                 } else if (res.data.status === 401) {
-                    alert(res.data.message)
+                    toast.error(res.data.message)
                     router.push('/auth')
                 }
             }).catch(error => {
-                alert(error.response.data.message)
+                toast.error(error.response.data.message)
             })
     }
 
@@ -86,10 +87,10 @@ export default function Setting() {
             })
             .then(res => {
                 if (res.data.status === 202) {
-                    alert(res.data.message)
+                    toast.success(res.data.message)
                     setLoading(false)
                 } else if (res.data.status === 401) {
-                    alert(res.data.message)
+                    toast.error(res.data.message)
                     router.push('/auth')
                 }
             }).catch(error => {
@@ -119,7 +120,7 @@ export default function Setting() {
             })
             .catch(() => {
                 setTimeout(() => {
-                    alert('Login session has expired , please log in again!')
+                    toast.warning('Login session has expired , please log in again!')
                     router.push('/auth')
                 }, 2000)
             })

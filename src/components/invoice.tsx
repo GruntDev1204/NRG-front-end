@@ -3,20 +3,12 @@ import axios from "axios"
 import Cookies from "js-cookie"
 import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
+import { toast } from "react-toastify"
 export default function Invoice() {
   const [bill, setBill] = useState<any>([])
   const [user, setUser] = useState<any>({})
   const router = useRouter()
-  // function getOderById(id: any) {
-  //   axios.get(`http://127.0.0.1:8000/api/orders/${id}`, {
-  //     headers: {
-  //       Authorization: `Bearer ${Cookies.get('access_token')}`
-  //     }
-  //   })
-  //     .then(res => {
-  //       console.log(res.data)
-  //     })
-  // }
+
   function getAllOrder() {
     axios.get(`http://127.0.0.1:8000/api/orders`, {
       headers: {
@@ -28,11 +20,12 @@ export default function Invoice() {
         if (res.data.status === 200 || res.data.status === 201) {
           setBill(res.data.data)
         } else {
-          alert("Lấy danh sách thất bại")
+          toast.error("Lấy danh sách thất bại")
         }
       })
       .catch(error => console.log(error))
   }
+
   useEffect(() => {
     axios.get(`http://127.0.0.1:8000/api/auth/profile`, {
       headers: {
@@ -46,6 +39,7 @@ export default function Invoice() {
 
     getAllOrder()
   }, [])
+
   return (
     <div className="invoice">
       <h2> <i className="fa-solid fa-credit-card"></i> HÓA ĐƠN THANH TOÁN -  Customer : {user.name}</h2>

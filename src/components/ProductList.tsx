@@ -14,44 +14,10 @@ export const ProdList: React.FC<Props> = ({ onSelectProduct, listProduct, catego
     }, [listProduct])
     return (
         <>
-
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 p-6 body-content-nav">
                 {lstProduct.map((item) => renderItem(item['id'], item['name'], item['price'], item['image'], () => { onSelectProduct(item) },
                     item['discount'], item['quantity'], item['origin'], item['category_id'], category))}
             </div>
-            {/* <ul className="pagination home-product-pagination">
-                <li className="pagination-item">
-                    <a href="" className="pagination-link">
-                        <i className="pagination-icon fa-solid fa-angle-left"></i>
-                    </a>
-                </li>
-                <li className="pagination-item pagination-active">
-                    <a href="" className="pagination-link">1 </a>
-                </li>
-                <li className="pagination-item">
-                    <a href="" className="pagination-link">2 </a>
-                </li>
-                <li className="pagination-item">
-                    <a href="" className="pagination-link">3 </a>
-                </li>
-                <li className="pagination-item">
-                    <a href="" className="pagination-link">4 </a>
-                </li>
-                <li className="pagination-item">
-                    <a href="" className="pagination-link">5 </a>
-                </li>
-                <li className="pagination-item">
-                    <a href="" className="pagination-link">... </a>
-                </li>
-                <li className="pagination-item">
-                    <a href="" className="pagination-link">14 </a>
-                </li>
-                <li className="pagination-item">
-                    <a href="" className="pagination-link">
-                        <i className="pagination-icon fa-solid fa-angle-right"></i>
-                    </a>
-                </li>
-            </ul> */}
         </>
     )
 }

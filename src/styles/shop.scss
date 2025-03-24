@@ -221,8 +221,11 @@
     }
   }
   .header-notify-img {
-    width: 40px;
-    object-fit: contain;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 1px solid rgb(135, 135, 135);
+    border-radius: 4px;
   }
   .header-notify-footer {
     display: flex;

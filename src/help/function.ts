@@ -1,5 +1,6 @@
 import { storage } from "@/firebase/firebase"
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage"
+import { toast } from "react-toastify"
 const urlStorageAvatar: string = `NRG/avatar`
 export const uploadAva = async (file: File): Promise<string> => {
   try {
@@ -12,12 +13,12 @@ export const uploadAva = async (file: File): Promise<string> => {
     const downloadURL = await getDownloadURL(storageRef)
     console.log("Download URL:", downloadURL)
 
-    alert("tải ảnh lên thành công! ")
+    toast.info("tải ảnh lên thành công! ")
 
     return downloadURL
   } catch (error) {
-    alert("Lỗi khi tải ảnh lên Firebase!")
-    console.error(error)
+    toast.error("Lỗi khi tải ảnh lên Firebase!")
+    console.log("Error uploading image:", error)
     return ""
   }
 }
