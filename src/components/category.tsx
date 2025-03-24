@@ -2,7 +2,7 @@ import axios from 'axios'
 import { useEffect, useState } from 'react'
 import { useRouter } from "next/router"
 import Cookies from 'js-cookie'
-
+import { toast } from 'react-toastify'
 
 export default function Category() {
   const router = useRouter()
@@ -38,10 +38,10 @@ export default function Category() {
       .then((res) => {
         getAllCategory()
         setNewCategory("")
-        alert(res.data.message)
+        toast.success(res.data.message)
       })
       .catch((err) => {
-        alert(err.response.data.message)
+        toast.error(err.response.data.message)
       })
   }
 
@@ -53,7 +53,7 @@ export default function Category() {
         setEditId(res.data.data.id)
       })
       .catch((err) => {
-        alert(err.response.data.message)
+        toast.error(err.response.data.message)
       })
   }
 
@@ -73,10 +73,10 @@ export default function Category() {
         setEditingCategory(false)
         setEditCategoryName("")
         setEditId(0)
-        alert(res.data.message)
+        toast.success(res.data.message)
       })
       .catch((err) => {
-        alert(err.response.data.message)
+        toast.error(err.response.data.message)
       })
   }
 
@@ -90,10 +90,10 @@ export default function Category() {
         })
         .then((res) => {
           getAllCategory()
-          alert(res.data.message)
+          toast.success(res.data.message)
         })
         .catch((err) => {
-          alert(err.response?.data?.message || "Có lỗi xảy ra")
+          toast.error(err.response.data.message)
         })
     }
   }
@@ -109,14 +109,14 @@ export default function Category() {
       })
       .then((res) => {
         if (res.data.status === 200 && (res.data.data.role === "CEO" || res.data.data.role === "Admin")) {
-          return alert('hello')
+          return toast.success('hello')
         }
 
-        alert('not permission')
+        toast.warning('not permission')
         Cookies.remove('access_token')
         router.push('/login')
       }).catch((err) => {
-        alert("vui lòng đăng nhập")
+        toast.error("vui lòng đăng nhập")
       })
   }, [token])
 

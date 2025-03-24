@@ -2,9 +2,8 @@
   background-color: #fff;
   box-shadow: 5px 10px 15px rgba(136, 136, 136, 0.3);
   text-align: center;
-  margin: auto;
-  width: 50%;
-  height: 50px;
+  width: 100%;
+  height: 100%;
   line-height: 50px;
 }
 
@@ -14,6 +13,9 @@
   display: flex;
   list-style: none;
   justify-content: space-around;
+  li {
+    align-items: center;
+  }
 }
 
 .menu-ul ul li {

@@ -2,6 +2,7 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
+import { toast } from "react-toastify"
 
 export default function Login() {
     const token = Cookies.get('access_token')
@@ -43,15 +44,15 @@ export default function Login() {
                     Cookies.set('access_token', access_token, { expires: 1 })
                     if (res.data.data.role === "CEO" || res.data.data.role === "Admin") {
                         pushRouter()
-                        return alert('login success')
+                        return toast.success("login success")
                     }
-                    return alert('not permission')
+                    return toast.warning('not permission')
                 }
             }).catch((error) => {
                 if (error.response.status === 403) {
-                    alert(error.response.data.error)
+                    toast.error(error.response.data.error)
                 } else {
-                    alert("login thất bại")
+                    toast.error("login thất bại")
                 }
             })
     }
@@ -63,11 +64,11 @@ export default function Login() {
                 Cookies.set('access_token', access_token, { expires: 1 })
                 if (res.data.data.role === "CEO" || res.data.data.role === "Admin") {
                     pushRouter()
-                    return alert('login success')
+                    return toast.success("login success")
                 }
-                return alert('not permission')
+                return toast.warning('not permission')
             }).catch((error) => {
-                alert(error.response.data.error)
+                toast.error(error.response.data.error)
             })
     }
 
@@ -93,11 +94,11 @@ export default function Login() {
                     return
                 }
 
-                alert('not permission')
+                toast.warning('not permission')
                 Cookies.remove('access_token')
                 router.push('/login')
             }).catch((err) => {
-                alert("vui lòng đăng nhập")
+                toast.error("vui lòng đăng nhập")
             })
     }, [])
 

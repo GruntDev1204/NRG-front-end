@@ -1,9 +1,10 @@
 'use client'
 import axios from "axios"
 import { useEffect, useState } from "react"
-import { uploadImgForProduct } from "@/help/function"
+import { formatVND, uploadImgForProduct } from "@/help/function"
 import Cookies from 'js-cookie'
 import { useRouter } from "next/router"
+import { toast } from "react-toastify"
 
 export default function Product() {
     const token = Cookies.get('access_token')
@@ -62,7 +63,7 @@ export default function Product() {
                         })
                         setDataProduct(res.data.data.items)
                     } else {
-                        alert("Lấy danh sách sản phẩm thất bại, vui lòng thử lại!")
+                        toast.error("Lấy danh sách sản phẩm thất bại, vui lòng thử lại!")
                     }
                 })
                 .catch((error) => {
@@ -78,8 +79,6 @@ export default function Product() {
             .then((res) => {
                 if (res.data.status === 200) {
                     setDataCategory(res.data.data)
-                } else {
-                    alert("Sign up error, please try again!")
                 }
             })
     }
@@ -106,9 +105,10 @@ export default function Product() {
 
     const uploadImg = async () => {
         if (!selectedFile) {
-            alert('Chưa chọn ảnh!')
+            toast.warning('Chưa chọn ảnh!')
             return
         }
+        toast.info('Uploading avatar...')
         const uploadedAvatarUrl = await uploadImgForProduct(selectedFile)
         if (uploadedAvatarUrl) {
             setInsert((prev) => ({
@@ -121,10 +121,10 @@ export default function Product() {
 
     async function handleUpdateAvatar() {
         if (!selectedFile) {
-            alert('Chưa chọn ảnh!')
+            toast.warning('Chưa chọn ảnh!')
             return
         }
-        alert('Uploading avatar...')
+        toast.info('Uploading avatar...')
         const uploadedAvatarUrl = await uploadImgForProduct(selectedFile)
         if (uploadedAvatarUrl) {
             setEditdata((prev) => ({
@@ -149,7 +149,7 @@ export default function Product() {
             }
         )
             .then((res) => {
-                alert(res.data.message)
+                toast.success(res.data.message)
                 getAllProduct({})
                 setInsert(dfData)
             }).catch((error) => {
@@ -174,7 +174,7 @@ export default function Product() {
                 }
             )
                 .then((res) => {
-                    alert(res.data.message)
+                    toast.success(res.data.message)
                     getAllProduct({})
                 }).catch((error) => {
                     alert(error.response.data.error)
@@ -199,7 +199,7 @@ export default function Product() {
             }
         )
             .then((res) => {
-                alert(res.data.message)
+                toast.success(res.data.message)
                 getAllProduct({})
                 setIsEdit(false)
                 setEditdata(dfData)
@@ -216,7 +216,7 @@ export default function Product() {
         })
 
             .then((res) => {
-                alert(res.data.message)
+                toast.success(res.data.message)
                 getAllProduct({})
             }).catch((error) => {
                 alert(error.response.data.error)
@@ -235,14 +235,14 @@ export default function Product() {
             })
             .then((res) => {
                 if (res.data.status === 200 && (res.data.data.role === "CEO" || res.data.data.role === "Admin")) {
-                    return alert('hello')
+                    return toast.info('hello')
                 }
 
-                alert('not permission')
+                toast.warning('not permission')
                 Cookies.remove('access_token')
                 router.push('/login')
             }).catch((err) => {
-                alert("vui lòng đăng nhập")
+                toast.warning("vui lòng đăng nhập")
             })
     }, [])
 
@@ -250,9 +250,11 @@ export default function Product() {
         <>
             <div className="container">
                 <div className="content">
-                    <div className="content-sub">
-                        <div className="one"><h2><i className="fa-solid fa-house"></i> </h2></div>
-                        <div className="two" onClick={() => setOpen(true)}> + Add</div>
+                    <div className="alert alert-info mb-3">
+                        <h3 className="text-center">Product Management</h3>
+                        <div className="btn btn-success" onClick={() => setOpen((prev) => !prev)}>
+                            + Add
+                        </div>
                     </div>
 
                     {isEdit && editData && (
@@ -319,15 +321,13 @@ export default function Product() {
                             </div>
                             <div className="update">
                                 <button type="button" className="btn-update" onClick={() => updateProduct()}>Save <i className="fa-regular fa-floppy-disk"></i></button>
-                                <button type="button" className="btn-cancel" onClick={cancelProcess}><i className="fa-solid fa-xmark"></i></button>
+                                <button type="button" className="btn btn-danger" onClick={cancelProcess}><i className="fa-solid fa-xmark"></i></button>
                             </div>
 
                         </div>
                     )}
 
                     {openView && (<div className="content-form">
-                        <h2>Manager Product</h2>
-
                         <div className="form-sub">
                             <label >Name Product</label>
                             <input type="text" placeholder="Enter name" onChange={(e) => setInsert({ ...dataInsert, name: e.target.value })} value={dataInsert.name} />
@@ -441,17 +441,26 @@ export default function Product() {
                                 <tr key={item.id}>
                                     <td><img src={item.image} alt="image" className="image-preview" /></td>
                                     <td>{item.name}</td>
-                                    <td>{item.price}</td>
+                                    <td>{formatVND(item.price)}</td>
                                     <td>{item.quantity}</td>
                                     <td>{item.origin}</td>
                                     <td>{item.discount * 100}%</td>
-                                    <td>{item.description}</td>
-                                    <td>{!item.status ? <button className="btn btn-info" onClick={() => changeStatus(item.id)}>Opening</button> : <button className="btn btn-danger" onClick={() => changeStatus(item.id)}>Hiding</button>}</td>
+                                    <td style={{ maxWidth: '300px' }}>
+                                        <span className="d-inline-block text-truncate" style={{ maxWidth: '300px' }}>
+                                            {item.description}
+                                        </span>
+                                    </td>
                                     <td>
-                                        <button type="button" className="btn-update" onClick={() => handleEditData(item.id)} >
+                                        {item.status ?
+                                            <button className="btn btn-info" onClick={() => changeStatus(item.id)}> <i className="fa fa-eye mr-2"></i>Public</button> :
+                                            <button className="btn btn-warning" onClick={() => changeStatus(item.id)}> <i className="fa fa-eye-slash mr-2"></i>Private</button>
+                                        }
+                                    </td>
+                                    <td>
+                                        <button type="button" className="btn btn-info" onClick={() => handleEditData(item.id)} >
                                             <i className="fa-solid fa-pen-to-square"></i>
                                         </button>
-                                        <button type="button" className="btn-delete" onClick={() => deleteProduct(item.id)}>
+                                        <button type="button" className="btn btn-danger ml-2" onClick={() => deleteProduct(item.id)}>
                                             <i className="fa-solid fa-delete-left"></i>
                                         </button>
                                     </td>

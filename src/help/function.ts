@@ -1,6 +1,7 @@
 import { storage } from "@/config/firebase"
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage"
 import Cookies from "js-cookie"
+import { toast } from "react-toastify"
 
 const urlStorageProduct: string = `NRG/products`
 const urlStorageAvatar: string = `NRG/avatar`
@@ -17,11 +18,11 @@ export const uploadAva = async (file: File): Promise<string> => {
     const downloadURL = await getDownloadURL(storageRef)
     console.log("Download URL:", downloadURL)
 
-    alert("tải ảnh lên thành công! ")
+    toast.info("tải ảnh lên thành công! ")
 
     return downloadURL
   } catch (error) {
-    alert("Lỗi khi tải ảnh lên Firebase!")
+    toast.error("Lỗi khi tải ảnh lên Firebase!")
     console.error(error)
     return ""
   }
@@ -38,11 +39,11 @@ export const uploadImgForProduct = async (file: File): Promise<string> => {
     const downloadURL = await getDownloadURL(storageRef)
     console.log("Download URL:", downloadURL)
 
-    alert("tải ảnh lên thành công! ")
+    toast.info("tải ảnh lên thành công! ")
 
     return downloadURL
   } catch (error) {
-    alert("Lỗi khi tải ảnh lên Firebase!")
+    toast.error("Lỗi khi tải ảnh lên Firebase!")
     console.error(error)
     return ""
   }
@@ -59,11 +60,11 @@ export const uploadImgSlide = async (file: File): Promise<string> => {
     const downloadURL = await getDownloadURL(storageRef)
     console.log("Download URL:", downloadURL)
 
-    alert("tải ảnh lên thành công! ")
+    toast.info("tải ảnh lên thành công! ")
 
     return downloadURL
   } catch (error) {
-    alert("Lỗi khi tải ảnh lên Firebase!")
+    toast.error("Lỗi khi tải ảnh lên Firebase!")
     console.error(error)
     return ""
   }
@@ -105,3 +106,18 @@ export const slides = [
       "https://firebasestorage.googleapis.com/v0/b/trung1204-bdc27.appspot.com/o/NRG%2Fslide%2Fngoc.png?alt=media&token=52d70e60-28c6-4a55-91be-3a23a45c5caf",
   },
 ]
+
+export const confirm = (text: string) => {
+  if (window.confirm(text)) {
+    return true
+  }
+  return false
+}
+
+export function formatVND(amount: any) {
+  var formatter = parseFloat(amount)
+  return formatter.toLocaleString("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  })
+}

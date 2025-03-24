@@ -1,9 +1,11 @@
 import Management from "@/components/manage";
+import Menu from "@/components/menu";
 
-export default function mana(){
-    return(
+export default function mana() {
+    return (
         <>
-        <Management />
+            <Menu />
+            <Management />
         </>
     )
 }

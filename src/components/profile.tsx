@@ -4,17 +4,46 @@ import axios from "axios"
 import Cookies from 'js-cookie'
 import { useRouter } from "next/router"
 import { uploadAva } from "@/help/function"
+import { toast } from "react-toastify"
 
 export default function Profile() {
     const token = Cookies.get('access_token')
     const [profile, setProfile] = useState<any>(null)
     const [isUpdated, setIsUpdated] = useState<boolean>(false)
     const [selectedFile, setSelectedFile] = useState<File | null>(null)
+    const [setting, isSetting] = useState<boolean>(false)
     const [updateProfile, setUpdateProfile] = useState<any>({
         name: "",
         avatar: "",
     })
+    const [dataChangePassword, setDataCPW] = useState<any>({
+        password: "",
+        new_password: "",
+        email: ""
+    })
     const router = useRouter()
+
+    const changePassword = () => {
+        axios.put('http://127.0.0.1:8000/api/auth/change-password', dataChangePassword, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+            .then((res) => {
+                if (res.data.status === 201) {
+                    toast.success(res.data.message)
+                    toast.success("please relogin your account!")
+                    setTimeout(() => {
+                        logout()
+                    }, 1000)
+                } else {
+                    toast.info(res.data.message)
+                }
+            })
+            .catch((err) => {
+                toast.error(err.response.data.message)
+            })
+    }
 
     const logout = () => {
         axios.post("http://127.0.0.1:8000/api/auth/logout",
@@ -27,7 +56,7 @@ export default function Profile() {
         )
             .then((res) => {
                 Cookies.remove('access_token')
-                alert("logout thành công")
+                toast.info("logout thành công")
                 setTimeout(() => {
                     router.push('/login')
                 }, 2000)
@@ -44,10 +73,10 @@ export default function Profile() {
 
     const uploadAvatar = async () => {
         if (!selectedFile) {
-            alert('Chưa chọn ảnh!')
+            toast.warning('Chưa chọn ảnh!')
             return
         }
-        alert('Uploading avatar...')
+        toast.info('Uploading avatar...')
         const uploadedAvatarUrl = await uploadAva(selectedFile)
         if (uploadedAvatarUrl) {
             setUpdateProfile((prev: any) => ({
@@ -67,7 +96,7 @@ export default function Profile() {
             }
         )
             .then((res) => {
-                alert(res.data.message)
+                toast.success(res.data.message)
                 loadProfile()
                 setIsUpdated(false)
                 setUpdateProfile({
@@ -76,7 +105,7 @@ export default function Profile() {
                 })
             })
             .catch((error) => {
-                alert(error.response.data.message)
+                toast.error(error.response.data.message)
             })
     }
 
@@ -89,7 +118,7 @@ export default function Profile() {
             })
                 .then(response => {
                     if (response.data.status === 401) {
-                        alert("vui lòng đăng nhập lại")
+                        toast.warning("vui lòng đăng nhập lại")
                         setTimeout(() => {
                             router.push('/login')
                         }, 2000)
@@ -99,14 +128,14 @@ export default function Profile() {
                     }
                 })
                 .catch(error => {
-                    alert("vui lòng đăng nhập lại")
+                    toast.error("vui lòng đăng nhập lại")
                     setTimeout(() => {
                         router.push('/login')
                     }, 2000)
                     return
                 })
         } else {
-            alert("vui lòng đăng nhập lại")
+            toast.warning("vui lòng đăng nhập lại")
             setTimeout(() => {
                 router.push('/login')
             }, 2000)
@@ -132,19 +161,26 @@ export default function Profile() {
                     </div>
                     <div className="row mt-5">
                         <div className="col">
-                            <p>Name : {profile.name}</p>
-                            <p>Email : {profile.email}</p>
-                            <p>Role : {profile.role}</p>
-                            <p>2FA : {profile.is_enabled_2fa ? "enable" : "disable"}</p>
-                            <button onClick={() => {
-                                logout()
-                            }} className="btn btn-danger"> logout  </button>
-                            <button className="btn btn-info ml-2" onClick={openUpdateForm}>Update your profile!</button>
+                            <div className="alert alert-dark">
+                                <p>Name : {profile.name}</p>
+                                <p>Email : {profile.email}</p>
+                                <p>Role : {profile.role}</p>
+                                <p>2FA : {profile.is_enabled_2fa ? "enabled" : "disabled"}</p>
+                                <p>Active email? : {profile.status ? "active" : "not active"}</p>
+
+                                {!isUpdated && <button className="btn btn-info" onClick={openUpdateForm}>Update your profile <i className="fas fa-user-edit"></i></button>}
+                                {isUpdated && <button className="btn btn-warning" onClick={() => setIsUpdated(false)}>Close <i className="fas fa-window-close"></i></button>}
+                                <button className="btn btn-primary ml-2" onClick={() => isSetting(!setting)}>setting <i className="fas fa-cog"></i></button>
+                                <button onClick={() => {
+                                    logout()
+                                }} className="btn btn-danger ml-2"> Logout  <i className="fas fa-sign-out-alt"></i> </button>
+                            </div>
                         </div>
                     </div>
                     {isUpdated && (
-                        <div className="row">
+                        <div className="row mt-5">
                             <div className="col">
+                                <h3 className="text-center"> Update your profile  </h3>
                                 <div className="form-sub">
                                     <label>Name</label>
                                     <input type="text" value={updateProfile.name} onChange={(e) => {
@@ -162,17 +198,51 @@ export default function Profile() {
                                             setSelectedFile(file)
                                         }
                                     }} />
-                                    <button type="button" style={{ marginTop: "10px" }} onClick={uploadAvatar}>Upload</button>
+                                    <button type="button" style={{ marginTop: "10px" }} onClick={uploadAvatar}>Upload <i className="fas fa-upload"></i></button>
                                 </div>
                                 <div className="form-sub">
                                     {updateProfile.avatar && updateProfile.avatar !== "" && <img src={updateProfile.avatar} alt="avatar" className="avatar-review" />}
                                 </div>
                                 <div className="form-sub">
-                                    <button type="button" style={{ marginTop: "10px" }} className="btn btn-info" onClick={updatedProfile}>Save</button>
+                                    <button type="button" style={{ marginTop: "10px" }} className="btn btn-info" onClick={updatedProfile}>Save Edit <i className="fas fa-save"></i></button>
                                 </div>
                             </div>
                         </div>
                     )}
+                    {setting && <>
+                        <div className="row mt-5">
+                            <div className="col">
+                                <h3 className="text-center"> Setting your account </h3>
+                                <div className="form-sub">
+                                    <h3>Change your password <i className="fas fa-lock"></i></h3>
+                                    <label>Email</label>
+                                    <input type="text" value={dataChangePassword.email} onChange={(e) => {
+                                        setDataCPW({
+                                            ...dataChangePassword,
+                                            email: e.target.value
+                                        })
+                                    }} placeholder="type your email first" />
+                                    <label className="mt-2">Old Password</label>
+                                    <input type="password" value={dataChangePassword.password} onChange={(e) => {
+                                        setDataCPW({
+                                            ...dataChangePassword,
+                                            password: e.target.value
+                                        })
+                                    }} placeholder="type your old password" />
+                                    <label className="mt-2">New password</label>
+                                    <input type="password" value={dataChangePassword.new_password} onChange={(e) => {
+                                        setDataCPW({
+                                            ...dataChangePassword,
+                                            new_password: e.target.value
+                                        })
+                                    }} placeholder="type your new password" />
+                                </div>
+                                <div className="form-sub">
+                                    <button type="button" style={{ marginTop: "10px" }} className="btn btn-info" onClick={() => changePassword()}>Save Change <i className="fas fa-cog"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </>}
 
                 </div>
             ) : "Đang tải thông tin..."}

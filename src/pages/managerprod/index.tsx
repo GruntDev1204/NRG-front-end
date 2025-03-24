@@ -1,4 +1,4 @@
-import AdminOrders from "@/components/prodmanager";
+import AdminOrders from "@/components/invoice";
 
 export default function manager(){
     return(

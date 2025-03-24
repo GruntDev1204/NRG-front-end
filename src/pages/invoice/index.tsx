@@ -1,11 +1,11 @@
-import Admin from "@/components/products";
-import AdminInvoices from "@/components/Admin_invoice";
-
+import Invoice from "@/components/invoice"
+import Menu from "@/components/menu"
 
 export default function index() {
     return (
         <>
-            <AdminInvoices />
+            <Menu />
+            <Invoice />
         </>
     )
 }

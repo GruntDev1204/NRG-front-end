@@ -2,20 +2,19 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import Cookies from "js-cookie"
 import { useRouter } from "next/router"
-import { api } from "../config/apiUrl"
+import { confirm } from "@/help/function"
+import { toast } from "react-toastify"
 
 export default function Management() {
     const router = useRouter()
-    const [users, setUsers] = useState([])
-    const [role, setROLE] = useState("")
-    const [editingUser, setEditingUser] = useState(null)
-    const [userName, setUserName] = useState("")
-    const [userEmail, setUserEmail] = useState("")
+    const [users, setUsers] = useState<any>([])
+    const [role, setROLE] = useState<string>("Customer")
+    const [status, setSTATUS] = useState<string>("Active")
     const token = Cookies.get("access_token")
 
     const getUsers = () => {
         axios
-            .get(`${api.getUsers}`, {
+            .get(`http://127.0.0.1:8000/api/users`, {
                 headers: { Authorization: `Bearer ${Cookies.get("access_token")}` },
             })
             .then((res) => {
@@ -31,53 +30,54 @@ export default function Management() {
             alert("Please select a role.")
             return
         }
+        if (confirm("do you want to change role for this user?")) {
+            axios
+                .put(
+                    `http://127.0.0.1:8000/api/users/manager/${id}/role`,
+                    { role: role },
+                    {
+                        headers: {
+                            Authorization: `Bearer ${Cookies.get("access_token")}`,
+                        },
+                    }
+                )
+                .then(() => {
+                    toast.success("Change role success")
+                    getUsers()
+                })
+                .catch((error) => {
+                    toast.error(error.response.data.error)
+                })
+        }
 
-        axios
-            .put(
-                `${api.changeUserRole}/${id}/role`,
-                { role: role },
-                {
-                    headers: {
-                        Authorization: `Bearer ${Cookies.get("access_token")}`,
-                    },
-                }
-            )
-            .then(() => {
-                alert("Change role success")
-                getUsers() // Lấy lại danh sách người dùng sau khi thay đổi
-            })
-            .catch((error) => {
-                alert(error.response.data.error)
-            })
+
     }
 
-    const saveUserChanges = (id: number) => {
-        axios
-            .put(
-                `${api.updateUser}/${id}`,
-                {
-                    name: userName,
-                    email: userEmail,
-                    role: role,
-                },
-                {
-                    headers: {
-                        Authorization: `Bearer ${Cookies.get("access_token")}`,
-                    },
-                }
-            )
-            .then(() => {
-                alert("User updated successfully!")
-                getUsers() // Lấy lại danh sách người dùng sau khi thay đổi
-                setEditingUser(null) // Đóng form chỉnh sửa
-            })
-            .catch((error) => {
-                alert(error.response.data.error)
-            })
-    }
+    const changeStatus = (id: number) => {
+        if (!status) {
+            toast.warning("Please select a status.")
+            return
+        }
 
-    const cancelEdit = () => {
-        setEditingUser(null)
+
+        if (confirm("Are you sure you want to change status for this user?"))
+            axios
+                .put(
+                    `http://127.0.0.1:8000/api/users/manager/${id}/status`,
+                    { status: status },
+                    {
+                        headers: {
+                            Authorization: `Bearer ${Cookies.get("access_token")}`,
+                        },
+                    }
+                )
+                .then(() => {
+                    toast.success("Change status success")
+                    getUsers()
+                })
+                .catch((error) => {
+                    toast.error(error.response.data.error)
+                })
     }
 
     useEffect(() => {
@@ -93,16 +93,18 @@ export default function Management() {
                     getUsers()
                 } else if (res.data.status === 200 && res.data.data.role === "Admin") {
                     setTimeout(() => { router.push('/profile') }, 2000)
-                    alert('only CEO access this page')
+                    toast.warning('only CEO access this page')
                     router.push('/profile')
                 }
             }).catch((err) => {
-                alert("vui lòng đăng nhập")
+                toast.error("vui lòng đăng nhập")
+                router.push('/login')
             })
     }, [])
 
     return (
         <div className="container">
+            <h1 className="text-center mb-5">Management Users</h1>
             <table id="userTable">
                 <thead>
                     <tr>
@@ -110,21 +112,20 @@ export default function Management() {
                         <th>Avatar</th>
                         <th>Name</th>
                         <th>Role</th>
-                        <th>Action</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {users.map((user, index) => (
+                    {users.map((user: any, index: number) => (
                         <tr key={index}>
                             <td>{user.email}</td>
                             <td>
-                                <img src={user.avatar} alt="avatar" />
+                                <img src={user.avatar} alt="avatar" className="image-preview" />
                             </td>
                             <td>{user.name}</td>
                             <td>
                                 <select
                                     onChange={(e) => setROLE(e.target.value)}
-                                    defaultValue={user.role}
                                 >
                                     <option value={user.role} disabled>
                                         {user.role}
@@ -140,24 +141,30 @@ export default function Management() {
                                 </button>
                             </td>
                             <td>
-                                <button
-                                    className="edit-btn"
-                                    onClick={() => {
-                                        setEditingUser(user) // Mở form chỉnh sửa
-                                        setUserName(user.name)
-                                        setUserEmail(user.email)
-                                    }}
+                                <select
+                                    onChange={(e) => setSTATUS(e.target.value)}
                                 >
-                                    Edit
+                                    <option value={user.status} disabled>
+                                        {user.status === 0 ? 'No active' : (user.status === 1 ? 'Active' : 'Blocked')}
+                                    </option>
+                                    <option value={"Active"}>Active</option>
+                                    <option value={"Inactive"}>No active</option>
+                                    <option value={"Blocked"}>Blocked</option>
+                                </select>
+                                <button
+                                    className="btn btn-primary ml-2 mr-2"
+                                    onClick={() => changeStatus(user.id)}
+                                >
+                                    Save
                                 </button>
-                                {user.status === 1 && (
-                                    <button className="edit-btn">Active</button>
-                                )}
                                 {user.status === 0 && (
-                                    <button className="delete-btn">No active</button>
+                                    <button className="btn btn-warning" disabled>No active <i className="fa-solid fa-xmark"></i></button>
+                                )}
+                                {user.status === 1 && (
+                                    <button className="btn btn-info" disabled>Active <i className="fa-solid fa-check"></i></button>
                                 )}
                                 {user.status === 2 && (
-                                    <button className="delete-btn">Blocked</button>
+                                    <button className="btn btn-danger" disabled>Blocked</button>
                                 )}
                             </td>
                         </tr>
@@ -169,46 +176,6 @@ export default function Management() {
                     )}
                 </tbody>
             </table>
-
-            {/* Form Edit User */}
-            {editingUser && (
-                <div className="edit-form">
-                    <h3>Edit User</h3>
-                    <form
-                        onSubmit={(e) => {
-                            e.preventDefault()
-                            saveUserChanges(editingUser.id)
-                        }}
-                    >
-                        <label>Name:</label>
-                        <input
-                            type="text"
-                            value={userName}
-                            onChange={(e) => setUserName(e.target.value)}
-                        />
-                        <label>Email:</label>
-                        <input
-                            type="email"
-                            value={userEmail}
-                            onChange={(e) => setUserEmail(e.target.value)}
-                        />
-                        <label>Role:</label>
-                        <select
-                            onChange={(e) => setROLE(e.target.value)}
-                            value={role}
-                        >
-                            <option value="Admin">Admin</option>
-                            <option value="Customer">Customer</option>
-                        </select>
-                        <div className="cover-btn">
-                            <button type="submit"><i className="fa-solid fa-bookmark"></i></button>
-                            <button type="button" onClick={cancelEdit}>
-                                <i className="fa-solid fa-xmark"></i>
-                            </button>
-                        </div>
-                    </form>
-                </div>
-            )}
-        </div>
+        </div >
     )
 }
