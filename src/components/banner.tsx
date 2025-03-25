@@ -3,7 +3,7 @@ import { Autoplay } from "swiper/modules";
 import "swiper/css";
 export default function Banner() {
   return (
-    <Swiper loop={true} autoplay={{ delay: 5000 }} speed={1000} modules={[Autoplay]} className="w-full h-full relative z-[0]" style={{ width: "1440px", height: "100%" }}>
+    <Swiper loop={true} autoplay={{ delay: 5000 }} speed={1000} modules={[Autoplay]} className="w-full h-full relative z-[0]" style={{ width: "100%", height: "100%" }}>
       <SwiperSlide>
         <img src="https://media.hcdn.vn/hsk/1740632404hometpcn2702.jpg" alt="poster" className="banner-img" style={{ overflow: "hidden", width: "100%", height: "100%" }} />
       </SwiperSlide>

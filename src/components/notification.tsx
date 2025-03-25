@@ -1,6 +1,7 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
 import Cookies from "js-cookie"
+import Link from "next/link"
 
 export default function Notifi() {
     const [notifi, setNotifi] = useState<any[]>([])
@@ -54,8 +55,13 @@ export default function Notifi() {
                             <li className="header-notify-item">Không có thông báo mới</li>
                         )}
                     </ul>
+                    <div className="header-notify-footer">
+                        <Link href="/notification" className="header-notify-footer-btn">
+                            Xem tất cả
+                        </Link>
+                    </div>
                 </div>
-            </li>
+            </li >
             <li className="header-cover-li-a">
                 <i className="header-navbar-icon fa-regular fa-circle-question"></i>
                 Trợ giúp

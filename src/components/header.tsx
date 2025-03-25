@@ -99,7 +99,7 @@ export default function Header() {
                                     <span className="header-cover-span">Kết nối</span>
                                 </li>
                                 <li className="header-cover-li">
-                                    <a href="https://www.facebook.com/TinaFose" target="_blank"><i className="fa-brands fa-facebook"></i></a>
+                                    <a href="https://www.facebook.com/TinaFose" target="_blank" style={{ color: "#fff" }}><i className="fa-brands fa-facebook"></i></a>
                                 </li>
                             </ul>
                         </div>
