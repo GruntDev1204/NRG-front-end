@@ -153,12 +153,10 @@ export default function Product() {
                 getAllProduct({})
                 setInsert(dfData)
             }).catch((error) => {
-                alert(error.response.data.message)
+                toast.error(error.response.data.message)
                 Object.values(error.response.data.errors).forEach((err) => {
                     if (Array.isArray(err)) {
-                        err.forEach((msg) => alert(msg))
-                    } else {
-                        alert(err)
+                        err.forEach((msg) => toast.error(msg))
                     }
                 })
             })
@@ -320,8 +318,8 @@ export default function Product() {
                                 <input type="checkbox" className="ml-2" name="interests" value="sports" onChange={(e) => setEditdata({ ...editData, status: e.target.checked })} checked={editData.status} />
                             </div>
                             <div className="update">
-                                <button type="button" className="btn-update" onClick={() => updateProduct()}>Save <i className="fa-regular fa-floppy-disk"></i></button>
-                                <button type="button" className="btn btn-danger" onClick={cancelProcess}><i className="fa-solid fa-xmark"></i></button>
+                                <button type="button" className="btn btn-success" onClick={() => updateProduct()}>Save <i className="fa-regular fa-floppy-disk"></i></button>
+                                <button type="button" className="btn btn-danger ml-2" onClick={cancelProcess}><i className="fa-solid fa-xmark"></i></button>
                             </div>
 
                         </div>
@@ -395,8 +393,8 @@ export default function Product() {
                             <label >Hiển thị?</label>
                             <input type="checkbox" className="ml-2" checked={dataInsert.status} onChange={(e) => setInsert({ ...dataInsert, status: e.target.checked })} />
                         </div>
-                        <button type="button" className="btn" onClick={createProduct}>Add <i className="fa-regular fa-floppy-disk"></i></button>
-                        <button type="button" className="btn-2" onClick={() => setOpen(false)}><i className="fa-solid fa-xmark"></i></button>
+                        <button type="button" className="btn btn-success" onClick={createProduct}>Add <i className="fa-regular fa-floppy-disk"></i></button>
+                        <button type="button" className="btn btn-danger ml-2" onClick={() => setOpen(false)}><i className="fa-solid fa-xmark"></i></button>
                     </div>)}
                 </div>
 

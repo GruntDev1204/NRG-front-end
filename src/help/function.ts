@@ -5,7 +5,7 @@ import { toast } from "react-toastify"
 
 const urlStorageProduct: string = `NRG/products`
 const urlStorageAvatar: string = `NRG/avatar`
-const urlStorageSlide: string = `NRG/slide`
+const urlStorageSlide: string = `NRG/posts`
 
 export const uploadAva = async (file: File): Promise<string> => {
   try {
@@ -49,7 +49,7 @@ export const uploadImgForProduct = async (file: File): Promise<string> => {
   }
 }
 
-export const uploadImgSlide = async (file: File): Promise<string> => {
+export const uploadImgPost = async (file: File): Promise<string> => {
   try {
     const storageRef = ref(storage, `${urlStorageSlide}/${file.name}`)
     console.log("Storage reference created:", storageRef)

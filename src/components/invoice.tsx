@@ -4,6 +4,7 @@ import { toast } from 'react-toastify'
 import Cookies from 'js-cookie'
 import { useRouter } from 'next/router'
 import { confirm, formatVND } from '@/help/function'
+import Link from 'next/link'
 
 export default function Invoice() {
   const token = Cookies.get('access_token')
@@ -92,7 +93,7 @@ export default function Invoice() {
               <th className='text-center'>Tổng tiền</th>
               <th className='text-center'>Đã Hủy?</th>
               <th className='text-center'>Trạng thái</th>
-              <th className='text-center'>Xóa?</th>
+              <th className='text-center'>Action?</th>
             </tr>
           </thead>
           <tbody>
@@ -113,7 +114,14 @@ export default function Invoice() {
                   <button className='btn btn-success' onClick={() => updateOrder(order.id)}>paid <i className="fa-solid fa-check"></i></button>
                   : <button className='btn btn-warning' onClick={() => updateOrder(order.id)}>unpaid <i className="fa-solid fa-xmark"></i></button>}
                 </td>
-                <td className='text-center align-middle'><button className='btn btn-danger' onClick={() => deleteOrders(order.id)}> <i className="fa-solid fa-trash"></i></button></td>
+                <td className='text-center align-middle'>
+                  <button className='btn btn-danger' onClick={() => deleteOrders(order.id)}> <i className="fa-solid fa-trash"></i></button>
+                  <Link href={`/detail-orders/${order.id}`}>
+                    <button className="btn btn-info ml-2">
+                      <i className="fa-solid fa-eye"></i>
+                    </button>
+                  </Link>
+                </td>
               </tr>
             ))}
           </tbody>
