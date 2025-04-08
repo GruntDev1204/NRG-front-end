@@ -14,11 +14,9 @@ export default function Setting() {
     const [selectedFile, setSelectedFile] = useState<File | null>(null)
     const [loading, setLoading] = useState<boolean>(false)
 
-
-
     const uploadAvatar = async () => {
         if (!selectedFile) {
-            alert('Chưa chọn ảnh!')
+            toast.warning('Chưa chọn ảnh!')
             return
         }
         setLoading(true)
@@ -132,13 +130,19 @@ export default function Setting() {
             <div className="body-container ">
                 <div className="body-container-content ">
                     <div className="row ">
-                        <div className="col-md-3">
+                        <div className="col-md-5 mr-5">
                             <div className="profile-card">
                                 {isEdit ?
                                     <p> <button onClick={editProfile}><i className="fa-solid fa-check"></i> </button>  </p> :
                                     <p>
-                                        <button className="mll" onClick={() => setIsEdit(true)}><i className="fa-solid fa-pen-to-square"></i> </button>
-                                        <button className="mll" onClick={() => router.push("/profile")}><i className="fa-solid fa-user"></i> </button>
+                                        <div className="row">
+                                            <div className="col-md-5 ml-3">
+                                                <button className="mll" onClick={() => setIsEdit(true)}><i className="fa-solid fa-pen-to-square"></i> </button>
+                                            </div>
+                                            <div className="col-md-5">
+                                                <button className="mll" onClick={() => router.push("/profile")}><i className="fa-solid fa-user"></i> </button>
+                                            </div>
+                                        </div>
                                     </p>
                                 }
                                 <div className="profile-userpic">
@@ -196,7 +200,7 @@ export default function Setting() {
                                 </div>
                             </div>
                         </div>
-                        <div className="col-md-7">
+                        <div className="col-md-4 ml-5">
                             <div className="profile-card">
                                 <h3 className="title-card"><i className="fa-solid fa-user-lock"></i> Security setting </h3>
                                 <div className="profile-usertitle">
