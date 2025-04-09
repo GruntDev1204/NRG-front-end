@@ -59,7 +59,6 @@ export default function Profile() {
         }
     }
 
-
     const uploadPost = () => {
         axios
             .post(
@@ -148,6 +147,27 @@ export default function Profile() {
         }
     }
 
+    const deletePost = (id: number) => {
+        if (!window.confirm("do u want đĩ mẹ màu!")) return
+        axios
+            .delete(
+                `http://127.0.0.1:8000/api/blogs/${id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                }
+            )
+            .then((response) => {
+                if (response.status === 204) {
+                    toast.success("Xóa bài đăng thanh cong!")
+                    loadPost()
+                }
+            }).catch((error) => {
+                toast.error(error.response.data.message)
+            })
+    }
+
     useEffect(() => {
         if (loadingPost) loadPost()
         axios
@@ -178,6 +198,7 @@ export default function Profile() {
                 }, 2000)
             })
     }, [loadingPost])
+
     return (
         <div className="container">
             <Header />
@@ -251,6 +272,11 @@ export default function Profile() {
                                         <h3 className="text-center">All your post <a type="button" className="btn btn-success" onClick={() => setLoadingPost(false)}>Come back!</a></h3>
                                         {blogs.map((post: any) => (
                                             <div className="alert alert-dark mt-2" >
+                                                <div className="row mt-2">
+                                                    <div className="col">
+                                                        <a type="btn" className="btn btn-danger" onClick={() => deletePost(post.id)} ><i className="fas fa-trash"></i></a>
+                                                    </div>
+                                                </div>
                                                 <div className="row mt-2">
                                                     <div className="col">
                                                         <p>{post.content}</p>
