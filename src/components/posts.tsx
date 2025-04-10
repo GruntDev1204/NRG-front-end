@@ -39,7 +39,7 @@ export default function Post() {
                                 <div className="alert alert-primary mt-3">
                                     <div className="row">
                                         <div className="col">
-                                            <h5 className="mb-3"><i className="fa-solid fa-clock"></i> {post.author_name} - {post.created_at}</h5>
+                                            <p className="mb-3"><i className="fa-solid fa-clock"></i> {post.author_name} - {post.created_at}</p>
                                             <p><img src={post.image_url} alt="post-avatar" className='avatar-review' style={{ borderRadius: '10px', border: '3px solid green', height: '500px', width: '500px', objectFit: 'cover' }} /></p>
                                             <p> <strong> {post.title}</strong></p>
                                             <p>- {post.content}</p>

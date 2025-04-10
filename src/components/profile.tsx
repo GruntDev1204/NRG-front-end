@@ -26,7 +26,7 @@ export default function Profile() {
         if (url.includes("firebasestorage.googleapis.com")) {
             const lower = url.toLowerCase()
             if (lower.includes("jpg") || lower.includes("jpeg") || lower.includes("png") || lower.includes("webp")) {
-                return <img src={url} alt="media" style={{ maxWidth: "100%", borderRadius: "8px" }} />
+                return <img src={url} alt="media" style={{ maxWidth: "100%", borderRadius: "8px", height: "300px", width: "100%", objectFit: "cover" }} />
             } else if (lower.includes("mp4") || lower.includes("webm") || lower.includes("ogg")) {
                 return (
                     <video controls width="100%" style={{ borderRadius: "8px" }}>
@@ -43,7 +43,7 @@ export default function Profile() {
         const isVideo = url.match(/\.(mp4|webm|ogg)$/i)
 
         if (isImage) {
-            return <img src={url} alt="media" style={{ maxWidth: "100%", borderRadius: "8px" }} />
+            return <img src={url} alt="media" style={{ maxWidth: "100%", borderRadius: "8px", height: "300px", width: "100%", objectFit: "cover" }} />
         } else if (isVideo) {
             return (
                 <video controls width="100%" style={{ borderRadius: "8px" }} autoPlay
@@ -217,7 +217,6 @@ export default function Profile() {
                                     <img src={user.avatar} className="img-responsive" alt="avatar" />
                                 </div>
                                 <div className="profile-usertitle">
-
                                     <div className="profile-usertitle-name">
                                         <i className="fa-solid fa-envelope"></i> Email :  {user.email}
                                     </div>
@@ -254,12 +253,13 @@ export default function Profile() {
                                                 <input type="file" onChange={(e: any) => setSelectedFile(e.target.files[0])} />
                                             </div>
                                         </div>
-                                        <button className="btn btn-success" disabled={loading} onClick={uploadMediaa}>Upload media <i className="fa-solid fa-paper-plane"></i></button>
+                                        <button className="btn btn-success" disabled={loading} onClick={uploadMediaa}>Upload media <i className="fa-solid fa-upload"></i></button>
                                     </div>
                                     <div className="row mt-2">
-                                        <button className="btn btn-success" onClick={() => uploadPost()}>Post it!</button>
-                                        <button className="btn btn-danger ml-2" onClick={() => setDataPost({ content: "", media: "" })}>Cancel</button>
-                                        <button className="btn btn-info " onClick={() => setLoadingPost(true)}>see post</button>
+                                        <a className="btn btn-success" onClick={() => uploadPost()}><i className="fas fa-upload"></i> Post </a>
+                                        <a className="btn btn-danger ml-2" onClick={() => setDataPost({ content: "", media: "" })}>Cancel</a>
+                                        <a className="btn btn-info ml-2" onClick={() => setLoadingPost(true)}>See all your posts <i className="fa-solid fa-eye"></i></a>
+                                        <a className="btn btn-primary ml-2" onClick={() => router.push("/blog")}>Visit the blog! <i className="fa-solid fa-eye"></i></a>
                                     </div>
                                 </div>
                             </div>
@@ -297,7 +297,7 @@ export default function Profile() {
                             loadingPost && blogs.length === 0 && (
                                 <div className="col-md-5 ml-5">
                                     <div className="profile-card">
-                                        <h3 className="text-center">All your post</h3>
+                                        <h3 className="text-center">All your post <a type="button" className="btn btn-success" onClick={() => setLoadingPost(false)}>Come back!</a></h3>
                                         <div className="row mt-2">
                                             <div className="col text-center">
                                                 <p>no post... <a type="button" onClick={() => setLoadingPost(false)}>post a post!</a></p>

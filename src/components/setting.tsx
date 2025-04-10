@@ -42,7 +42,7 @@ export default function Setting() {
         })
             .then(res => {
                 if (res.data.status === 200) {
-                    alert(res.data.message)
+                    toast.success(res.data.message)
                     setIsEdit(false)
                 } else if (res.data.status === 401) {
                     router.push('/auth')
@@ -66,8 +66,10 @@ export default function Setting() {
             .then(res => {
                 if (res.data.status === 201) {
                     toast.success(res.data.message)
-                    Cookies.remove("access_token")
-                    router.push('/auth')
+                    setTimeout(() => {
+                        toast.info("please login again")
+                        logout()
+                    }, 2000)
                 } else if (res.data.status === 401) {
                     toast.error(res.data.message)
                     router.push('/auth')
@@ -87,12 +89,32 @@ export default function Setting() {
                 if (res.data.status === 202) {
                     toast.success(res.data.message)
                     setLoading(false)
+                    setTimeout(() => {
+                        toast.info("please login again")
+                        logout()
+                    }, 2000)
                 } else if (res.data.status === 401) {
                     toast.error(res.data.message)
                     router.push('/auth')
                 }
             }).catch(error => {
             })
+    }
+
+    const logout = () => {
+        axios.post('http://127.0.0.1:8000/api/auth/logout', {},
+            {
+                headers: { Authorization: `Bearer ${token}` }
+            })
+            .then(res => {
+                if (res.data.status === 204) {
+                    toast.success(res.data.message)
+                } else if (res.data.status === 401) {
+                    toast.error(res.data.message)
+                }
+            })
+        Cookies.remove("access_token")
+        router.push('/auth')
     }
 
     useEffect(() => {
@@ -119,7 +141,7 @@ export default function Setting() {
             .catch(() => {
                 setTimeout(() => {
                     toast.warning('Login session has expired , please log in again!')
-                    router.push('/auth')
+                    logout()
                 }, 2000)
             })
     }, [])
@@ -167,7 +189,7 @@ export default function Setting() {
                                         </p>
                                     )}
                                     {isEdit && (
-                                        <p>
+                                        <p className="mt-3">
                                             <label htmlFor="fileUpload" className="btn btn-outline-primary">
                                                 Chọn avatar <i className="fa-solid fa-folder-open"></i>
                                             </label>
@@ -182,9 +204,9 @@ export default function Setting() {
                                                     <i className="fa-solid fa-spinner"></i>
                                                 </button>
                                             ) : (
-                                                <button className="btn btn-success" onClick={uploadAvatar}>
+                                                <a type="button" className="btn btn-success ml-2 mb-2 " onClick={uploadAvatar}>
                                                     <i className="fa-solid fa-upload"></i>
-                                                </button>
+                                                </a>
                                             )}
                                         </p>
                                     )}
@@ -230,14 +252,14 @@ export default function Setting() {
                                 </div>
 
                                 <div className="profile-usertitle">
-                                    {!user.status &&
+                                    {user.status === 0 &&
                                         <p>
                                             <i className="fa-solid fa-check"></i> Authenticate your email :
                                             {"  "} {loading ? <button ><i className="fa-solid fa-spinner"></i> please wait...</button> : <button onClick={activeEmail}><i className="fa-solid fa-envelope"></i></button>}
                                         </p>
                                     }
                                     {
-                                        user.status &&
+                                        user.status === 1 &&
                                         <p>
                                             <i className="fa-solid fa-check"></i> Email verified status : Verified  at {user.email_verified_at} ✅
                                         </p>

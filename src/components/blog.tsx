@@ -29,7 +29,7 @@ export default function Blog() {
         if (url.includes("firebasestorage.googleapis.com")) {
             const lower = url.toLowerCase()
             if (lower.includes("jpg") || lower.includes("jpeg") || lower.includes("png") || lower.includes("webp")) {
-                return <img src={url} alt="media" style={{ maxWidth: "100%", borderRadius: "8px", border: "3px solid red", marginBottom: "20px" }} className="img-fluid" />
+                return <img src={url} alt="media" style={{ width: "100%", borderRadius: "8px", border: "3px solid #000", marginBottom: "20px", objectFit: "contain", height: "500px", backgroundColor: "#0000" }} className="img-fluid" />
             } else if (lower.includes("mp4") || lower.includes("webm") || lower.includes("ogg")) {
                 return (
                     <div style={{ aspectRatio: "16/9", width: "100%" }}>
@@ -55,7 +55,7 @@ export default function Blog() {
         const isVideo = url.match(/\.(mp4|webm|ogg)$/i)
 
         if (isImage) {
-            return <img src={url} alt="media" style={{ maxWidth: "100%", borderRadius: "8px", border: "3px solid #000", marginBottom: "20px" }} className="img-fluid" />
+            return <img src={url} alt="media" style={{ width: "500px", borderRadius: "8px", border: "3px solid #000", marginBottom: "20px", objectFit: "cover", height: "500px" }} className="img-fluid" />
         } else if (isVideo) {
             return (
                 <div style={{ aspectRatio: "16/9", width: "100%" }}>
@@ -119,20 +119,19 @@ export default function Blog() {
                         <li> <button className="btn btn-warning" onClick={() => router.back()}> <i className="fa-solid fa-arrow-left"></i> Back the previous page </button></li>
                         {blogs.map((post: any) => (
                             <li key={post.id}>
-                                <div className={`alert mt-3` + (user.id === post.user_id ? " alert-success" : " alert-dark")}>
+                                <div className={`alert mt-3` + (user.id === post.user_id ? " alert-info" : " alert-dark")}>
                                     <div className="row">
                                         <div className="col" style={{ display: "flex" }}>
-                                            <p><img src={post.avatar} alt="avatar" style={{ width: "50px", height: "50px", borderRadius: "50%", objectFit: "cover" }} className="img-fluid" /> </p>
-                                            <div style={{ display: "flex", flexDirection: "column", fontWeight: "bold" , marginLeft: "10px" , justifyContent: "center" , lineHeight: "20px"}}>
-                                                <p> {post.user_name} </p>
+                                            <a style={{ cursor: "pointer", marginBottom: "15px" }} href={(user.id !== post.user_id ? `/#` : `/profile`)}><img src={post.avatar} alt="avatar" style={{ width: "70px", height: "70px", borderRadius: "50%", border: "1px solid #000", objectFit: "cover" }} className="img-fluid" /> </a>
+                                            <div style={{ display: "flex", flexDirection: "column", fontWeight: "bold", marginLeft: "10px", justifyContent: "center", lineHeight: "20px", }}>
+                                                <p>  <a style={{ cursor: "pointer", marginBottom: "15px" }} href={(user.id !== post.user_id ? `/#` : `/profile`)}> {post.user_name}</a> </p>
                                                 <p><i className="fas fa-clock"></i> {post.created_at}</p>
                                             </div>
-
                                         </div>
                                     </div>
                                     <div className="row">
                                         <div className="col">
-                                            <p> {renderMedia(post.media)}</p>
+                                            <p>{renderMedia(post.media)}</p>
                                             <p>{post.content}</p>
                                         </div>
                                     </div>

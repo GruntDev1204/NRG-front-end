@@ -1,4 +1,20 @@
+import axios from "axios"
+import { useEffect, useState } from "react"
+
 export default function Footer() {
+    const [cate, setCate] = useState<any>([])
+
+    useEffect(() => {
+        axios.get('http://127.0.0.1:8000/api/categories')
+            .then((res) => {
+                setCate(res.data.data.slice(0, 3))
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+
+    }, [])
+
     return (
         <div className="footer">
             <div className="gird">
@@ -46,21 +62,17 @@ export default function Footer() {
                     <div className="gird-column-2-4">
                         <h3 className="footer-heading">Danh mục</h3>
                         <ul className="footer-list">
-                            <li className="footer-list-item">
-                                <a href="" className="footer-list-item-link">
-
-                                </a>
-                            </li>
-                            <li className="footer-list-item">
-                                <a href="" className="footer-list-item-link">
-                                    Đồ dưỡng da
-                                </a>
-                            </li>
-                            <li className="footer-list-item">
-                                <a href="" className="footer-list-item-link">
-                                    Sữa tắm
-                                </a>
-                            </li>
+                            {
+                                cate.map((item: any) => {
+                                    return (
+                                        <li className="footer-list-item">
+                                            <a href={`/categories/${item.id}`} className="footer-list-item-link">
+                                                {item.name}
+                                            </a>
+                                        </li>
+                                    )
+                                })
+                            }
                         </ul>
                     </div>
                     <div className="gird-column-2-4">
@@ -97,8 +109,8 @@ export default function Footer() {
                     </div>
                 </div>
             </div>
-            <div className="gird-row-below">
-                <p className="footer-text">© 2025 - Bản quyền thuộc về Trần Hoài Ngọc</p>
+            <div className="gird-row-below" style={{ textAlign: 'center' }}>
+                <p className="footer-text mt-2">©2025 - Bản quyền thuộc về Trần Hoài Ngọc</p>
             </div>
         </div>
     )
